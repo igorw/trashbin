@@ -1,0 +1,16 @@
+---
+detect_relations: true
+
+options:
+  type: INNODB
+  collate: utf8_bin
+  charset: utf8
+
+Paste:
+  actAs: { Timestampable: ~ }
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    content: string

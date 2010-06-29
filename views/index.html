@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1>trashbin</h1>
+
+<p>
+  simple pastebin for pasting pastes.
+</p>
+
+<form action="{{ create_url|e }}" method="get">
+  <textarea name="content"></textarea>
+  <input type="submit" name="submit" value="trash it!" />
+</form>
+
+{% endblock %}
