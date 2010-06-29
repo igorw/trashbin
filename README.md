@@ -10,6 +10,12 @@ simple pastebin written in PHP
     ./doctrine create-db
     ./doctrine create-tables
 
+## dev
+
+to generate the models from the schema use:
+
+    ./doctrine generate-models-yaml
+
 ## using
 
 * doctrine
