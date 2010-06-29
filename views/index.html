@@ -8,8 +8,14 @@
   simple pastebin for pasting pastes.
 </p>
 
-<form action="{{ create_url|e }}" method="get">
-  <textarea name="content"></textarea>
+{% if error_msg %}
+<p class="error_msg">
+  {{ error_msg|e }}
+</p>
+{% endif %}
+
+<form action="{{ create_url|e }}" method="post">
+  <textarea name="content">{{ paste.content|e }}</textarea>
   <input type="submit" name="submit" value="trash it!" />
 </form>
 

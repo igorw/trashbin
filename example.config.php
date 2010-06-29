@@ -8,4 +8,4 @@
  * file that was distributed with this source code.
  */
 
-return Doctrine_Manager::connection('sqlite:data.sqlite');
+return Doctrine_Manager::connection('sqlite:data/development.sqlite');
