@@ -10,6 +10,12 @@ simple pastebin written in PHP
     ./doctrine create-db
     ./doctrine create-tables
 
+## using
+
+* doctrine
+* twig
+* shjs
+
 ## license
 
 see LICENSE.
