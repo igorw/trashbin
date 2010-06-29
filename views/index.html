@@ -15,8 +15,19 @@
 {% endif %}
 
 <form action="{{ create_url|e }}" method="post">
-  <textarea name="content">{{ paste.content|e }}</textarea>
-  <input type="submit" name="submit" value="trash it!" />
+  <p>
+    <select name="language">
+    {% for language in languages %}
+      <option>{{ language|e }}</option>
+    {% endfor %}
+    </select>
+  </p>
+  <p>
+    <textarea name="content">{{ paste.content|e }}</textarea>
+  </p>
+  <p>
+    <input type="submit" name="submit" value="trash it!" />
+  </p>
 </form>
 
 {% endblock %}

@@ -25,7 +25,8 @@ if (!in_array($action, array('index', 'create', 'view')))
 	$template = $twig->loadTemplate('error.html');
 
 	$template->display(array(
-		'message' => 'file not found',
+		'index_url'	=> $index_url,
+		'message'	=> 'file not found',
 	));
 	
 	return;
@@ -34,6 +35,12 @@ if (!in_array($action, array('index', 'create', 'view')))
 $index_url = '.';
 $create_url = '?q=create';
 $view_url = '?q=view&id=%s';
+
+$languages = array();
+foreach (glob('vendor/shjs/lang/sh_*.min.js') as $file)
+{
+	$languages[] = str_replace(array('vendor/shjs/lang/sh_', '.min.js'), '', $file);
+}
  
 switch ($action)
 {
@@ -41,7 +48,8 @@ switch ($action)
 		$template = $twig->loadTemplate('index.html');
 
 		$template->display(array(
-			'create_url' => $create_url,
+			'create_url'	=> $create_url,
+			'languages'	=> $languages,
 		));
 	break;
 	
@@ -63,11 +71,18 @@ switch ($action)
 
 			$template->display(array(
 				'create_url'	=> $create_url,
+				'languages'	=> $languages,
 				'error_msg'	=> $error_msg,
 				'paste'		=> $paste,
 			));
 			
 			return;
+		}
+		
+		$language = isset($_POST['language']) ? basename((string) $_POST['language']) : '';
+		if (file_exists("vendor/shjs/lang/sh_$language.min.js"))
+		{
+			$paste->language = $language;
 		}
 		
 		$paste->save();
@@ -87,7 +102,8 @@ switch ($action)
 			$template = $twig->loadTemplate('error.html');
 
 			$template->display(array(
-				'message' => 'paste not found',
+				'index_url'	=> $index_url,
+				'message'	=> 'paste not found',
 			));
 
 			return;

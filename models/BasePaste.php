@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property string $content
+ * @property string $language
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -26,6 +27,10 @@ abstract class BasePaste extends Doctrine_Record
              ));
         $this->hasColumn('content', 'string', null, array(
              'type' => 'string',
+             ));
+        $this->hasColumn('language', 'string', 20, array(
+             'type' => 'string',
+             'length' => '20',
              ));
 
         $this->option('type', 'INNODB');
