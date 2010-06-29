@@ -1,3 +1,4 @@
 config.php
 data/*
 cache/twig/*.php
+.DS_Store
