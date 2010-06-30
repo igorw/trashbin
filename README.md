@@ -12,13 +12,15 @@ simple pastebin written in PHP
 
 ## dev
 
+to generate a new migration use:
+
+     ./doctrine generate-migrations-diff
+
 to generate the models from the schema use:
 
     ./doctrine generate-models-yaml
 
-to generate a new migration use:
-
-     ./doctrine generate-migrations-diff
+**note:** always generate the migration first.
 
 ## using
 
