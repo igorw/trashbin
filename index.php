@@ -22,17 +22,17 @@ $twig = new Twig_Environment($loader, array(
 
 try
 {
-	$action = isset($_GET['q']) ? (string) $_GET['q'] : 'index';
-	if (!in_array($action, array('index', 'create', 'view')))
-	{
-		throw new FileNotFoundException('page not found');
-	}
-
 	$index_url = '.';
 	$create_url = '?q=create';
 	$view_url = '?q=view&id=%s';
 
 	$languages = get_languages();
+	
+	$action = isset($_GET['q']) ? (string) $_GET['q'] : 'index';
+	if (!in_array($action, array('index', 'create', 'view')))
+	{
+		throw new FileNotFoundException('page not found');
+	}
 
 	switch ($action)
 	{
