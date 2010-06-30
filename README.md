@@ -20,6 +20,12 @@ to generate the models from the schema use:
 
     ./doctrine generate-models-yaml
 
+to migrate the database use:
+
+to generate the models from the schema use:
+
+    ./doctrine migrate
+
 **note:** always generate the migration first.
 
 ## using
