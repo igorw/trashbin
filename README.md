@@ -8,13 +8,17 @@ simple pastebin written in PHP
     cp example.config.php config.php
     # adjust config.php
     ./doctrine create-db
-    ./doctrine create-tables
+    ./doctrine migrate
 
 ## dev
 
 to generate the models from the schema use:
 
     ./doctrine generate-models-yaml
+
+to generate a new migration use:
+
+     ./doctrine generate-migrations-diff
 
 ## using
 
