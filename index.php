@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-require 'bootstrap.php';
-require 'lib/support.php';
-require 'lib/FileNotFoundException.php';
-require 'lib/RedirectException.php';
+require dirname(__FILE__) . '/bootstrap.php';
+require dirname(__FILE__) . '/lib/support.php';
+require dirname(__FILE__) . '/lib/FileNotFoundException.php';
+require dirname(__FILE__) . '/lib/RedirectException.php';
 
 // set up twig
-$loader = new Twig_Loader_Filesystem('views');
+$loader = new Twig_Loader_Filesystem(dirname(__FILE__) . '/views');
 $twig = new Twig_Environment($loader, array(
-	'cache' => 'cache/twig',
+	'cache' => dirname(__FILE__) . '/cache/twig',
 	'debug' => true,
 ));
 

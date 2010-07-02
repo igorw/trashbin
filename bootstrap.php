@@ -9,7 +9,7 @@
  */
 
 // doctrine
-require_once 'vendor/doctrine/lib/Doctrine/Core.php';
+require_once dirname(__FILE__) . '/vendor/doctrine/lib/Doctrine/Core.php';
 spl_autoload_register(array('Doctrine_Core', 'autoload'));
 spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
@@ -17,10 +17,10 @@ $manager = Doctrine_Manager::getInstance();
 
 // autoloading
 $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
-Doctrine_Core::loadModels('models');
+Doctrine_Core::loadModels(dirname(__FILE__) . '/models');
 
 $conn = require 'config.php';
 
 // twig
-require_once 'vendor/twig/lib/Twig/Autoloader.php';
+require_once dirname(__FILE__) . '/vendor/twig/lib/Twig/Autoloader.php';
 Twig_Autoloader::register();

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require 'bootstrap.php';
+require dirname(__FILE__) . '/bootstrap.php';
 
 $q = Doctrine_Query::create()
 	->delete('Paste p')
