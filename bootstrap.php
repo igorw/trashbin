@@ -20,6 +20,8 @@ $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_L
 Doctrine_Core::loadModels(dirname(__FILE__) . '/models');
 
 $conn = require 'config.php';
+$conn->setCharset('utf8');
+$conn->setCollate('utf8_bin');
 
 // twig
 require_once dirname(__FILE__) . '/vendor/twig/lib/Twig/Autoloader.php';
