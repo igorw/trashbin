@@ -12,6 +12,6 @@ require dirname(__FILE__) . '/bootstrap.php';
 
 $q = Doctrine_Query::create()
 	->delete('Paste p')
-	->where('p.created_at < ?', date('Y-m-d H:i:s', strtotime('4 seconds ago')));
+	->where('p.created_at < ?', date('Y-m-d H:i:s', strtotime('24 hours ago')));
 $count = $q->execute();
 echo "$count records deleted\n";
