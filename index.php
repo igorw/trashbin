@@ -78,12 +78,12 @@ try
 
 			$paste->save();
 
-			throw new RedirectException(sprintf($view_url, (int) $paste->id));
+			throw new RedirectException(sprintf($view_url, $paste->hash_id));
 		break;
 
 		case 'view':
-			$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-			$paste = Doctrine_Core::getTable('Paste')->find($id);
+			$hash_id = isset($_GET['id']) ? (string) $_GET['id'] : '';
+			$paste = Doctrine_Core::getTable('Paste')->findOneByHashId($hash_id);
 
 			if (!$paste)
 			{

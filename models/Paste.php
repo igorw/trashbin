@@ -12,4 +12,9 @@
  */
 class Paste extends BasePaste
 {
+	public function preInsert($event)
+	{
+		$hash_id = substr(hash('sha512', $this->content . time() . rand(0, 255)), 0, 8);
+		$this->_set('hash_id', $hash_id);
+	}
 }
