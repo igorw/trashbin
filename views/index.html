@@ -3,32 +3,19 @@
 {% block body %}
 
 <h1>trashbin</h1>
-
-<p>
-  simple pastebin for pasting pastes.
-</p>
-
+<p>simple pastebin for pasting pastes.</p>
 {% if error_msg %}
-<p class="error_msg">
-  {{ error_msg|e }}
-</p>
+<p class="error_msg">&sim; {{ error_msg|e }}</p>
 {% endif %}
-
 <form action="{{ create_url|e }}" method="post">
-  <p>
     <select name="language">
       <option value="">none</option>
       {% for language in languages %}
       <option>{{ language|e }}</option>
       {% endfor %}
     </select>
-  </p>
-  <p>
     <textarea name="content">{{ paste.content|e }}</textarea>
-  </p>
-  <p>
     <input type="submit" name="submit" value="trash it!" />
-  </p>
 </form>
 
 {% endblock %}

@@ -1,5 +1,65 @@
 /* This file is part of trashbin. */
 
+* {
+  margin:0;
+  padding:0;
+  font:100% Monaco, "Andale Mono","Courier New", Courier, mono;
+  }
+html {
+  
+  }
+body {
+  padding:0 10px;
+  }
+h1 {
+	margin-top:15px;
+	font-weight:bold;
+	font-size:2.0em;
+  }
+p {
+  font-size:1.0em;
+  }
+textarea {
+  width:95%;
+  min-width:700px;
+  height:500px;
+  font-size:0.95em;
+  color:#333;
+  border:1px solid #999;
+  }
+select,input {
+  display:block;
+  margin:5px 0;
+  }
+select {
+  border:1px solid #999;
+  }
+input,span a {
+  display:block;
+  width:8em;
+  padding:0.2em;
+  line-height:1.4em;
+  background-color:#f1f1f1;
+  border:none;
+  color:#000;
+  text-decoration:none;
+  text-align:center;
+  margin:5px 0;
+  }
+pre {
+  margin:15px 0;
+  font-size:0.95em;
+  background-color:#f1f1f1;
+  padding:5px;
+  white-space:wrap;
+  }
+span a:hover,input:hover {
+  background-color:#ccc;
+  }
 .error_msg {
-	color: red;
-}
+  color:#ff0000;
+  }
+#footer {
+  text-align:right;
+  font-size:0.8em;
+  }
