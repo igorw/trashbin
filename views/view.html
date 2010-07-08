@@ -19,16 +19,10 @@
 
 <h2>view paste</h2>
 
-<p>
-  created on {{ paste.created_at|date|e }}
-</p>
+<p>created on {{ paste.created_at|date|e }}</p>
 
-<p>
-  <pre class="sh_{{ paste.language }}">{{ paste.content|e }}</pre>
-</p>
+<pre class="sh_{{ paste.language }}">{{ paste.content|e }}</pre>
 
-<p>
-  <a href="{{ index_url|e }}">new paste</a>
-</p>
+<span><a href="{{ index_url|e }}">new paste</a></span>
 
 {% endblock %}
