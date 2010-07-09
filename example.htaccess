@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /trashbin
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([0-9a-f]{8})$ index.php?q=view&id=$1 [L]

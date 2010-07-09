@@ -24,7 +24,7 @@ try
 {
 	$index_url = '.';
 	$create_url = '?q=create';
-	$view_url = '?q=view&id=%s';
+	$view_url = '%s';
 
 	$languages = get_languages();
 	
