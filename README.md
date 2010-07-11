@@ -14,6 +14,8 @@ simple pastebin written in PHP
 
 ## config
 
+the following options can be set in config.yml
+
 ### global
 
 **gc_interval**: pastes created before this time will be removed. example value: "24 hours ago"
