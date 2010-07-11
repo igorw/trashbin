@@ -34,6 +34,7 @@ to generate the models from the schema use:
 
 * doctrine
 * twig
+* symfony yaml component
 * shjs
 
 ## license
