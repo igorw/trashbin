@@ -16,17 +16,17 @@ simple pastebin written in PHP
 
 ### global
 
-*gc_interval*: pastes created before this time will be removed. example value: "24 hours ago"
+**gc_interval**: pastes created before this time will be removed. example value: "24 hours ago"
 
-*footer*: is displayed at the foot of the page.
+**footer**: is displayed at the foot of the page.
 
 ### doctrine
 
-*dsn*: data source to be used by the doctrine orm, for example: "mysql://root:rootpassword@mydbserver/mydb"
+**dsn**: data source to be used by the doctrine orm, for example: "mysql://root:rootpassword@mydbserver/mydb"
 
 ### twig
 
-*debug*: debug mode takes care of recompilation and uses less agressive caching.
+**debug**: debug mode takes care of recompilation and uses less agressive caching.
 
 ## dev
 
