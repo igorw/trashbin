@@ -1,0 +1,7 @@
+global:
+  gc_interval: 24 hours ago
+  footer: Hosted by <a href="https://affiliates.nexcess.net/idevaffiliate.php?id=1184">Nexcess.net</a>
+doctrine:
+  dsn: sqlite:data/development.sqlite
+twig:
+  debug: true

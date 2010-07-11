@@ -8,6 +8,10 @@
  * file that was distributed with this source code.
  */
 
+// sfYaml
+require dirname(__FILE__) . '/vendor/sfYaml/lib/sfYaml.php';
+$config = sfYaml::load('config.yml');
+
 // doctrine
 require_once dirname(__FILE__) . '/vendor/doctrine/lib/Doctrine/Core.php';
 spl_autoload_register(array('Doctrine_Core', 'autoload'));
@@ -19,7 +23,7 @@ $manager = Doctrine_Manager::getInstance();
 $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
 Doctrine_Core::loadModels(dirname(__FILE__) . '/models');
 
-$conn = require 'config.php';
+$conn = Doctrine_Manager::connection($config['doctrine']['dsn']);
 $conn->setCharset('utf8');
 $conn->setCollate('utf8_bin');
 

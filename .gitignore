@@ -1,4 +1,4 @@
-config.php
+config.yml
 data/*
 cache/twig/*.php
 .DS_Store

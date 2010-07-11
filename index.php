@@ -17,7 +17,7 @@ require dirname(__FILE__) . '/lib/RedirectException.php';
 $loader = new Twig_Loader_Filesystem(dirname(__FILE__) . '/views');
 $twig = new Twig_Environment($loader, array(
 	'cache' => dirname(__FILE__) . '/cache/twig',
-	'debug' => true,
+	'debug' => $config['twig']['debug'],
 ));
 
 try
@@ -42,6 +42,7 @@ try
 			$template->display(array(
 				'create_url'	=> $create_url,
 				'languages'	=> $languages,
+				'footer'	=> $config['global']['footer'],
 			));
 		break;
 
@@ -65,6 +66,7 @@ try
 					'languages'	=> $languages,
 					'error_msg'	=> $error_msg,
 					'paste'		=> $paste,
+					'footer'	=> $config['global']['footer'],
 				));
 
 				return;
@@ -95,6 +97,7 @@ try
 			$template->display(array(
 				'paste'		=> $paste,
 				'index_url'	=> $index_url,
+				'footer'	=> $config['global']['footer'],
 			));
 		break;
 	}
@@ -112,6 +115,7 @@ catch (FileNotFoundException $e)
 	$template->display(array(
 		'index_url'	=> $index_url,
 		'message'	=> $e->getMessage(),
+		'footer'	=> $config['global']['footer'],
 	));
 }
 catch (Exception $e)
@@ -121,5 +125,6 @@ catch (Exception $e)
 	$template->display(array(
 		'index_url'	=> $index_url,
 		'message'	=> $e->getMessage(),
+		'footer'	=> $config['global']['footer'],
 	));
 }
