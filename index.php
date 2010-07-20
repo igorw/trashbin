@@ -23,7 +23,7 @@ $twig = new Twig_Environment($loader, array(
 try
 {
 	$index_url = '.';
-	$create_url = '?q=create';
+	$create_url = 'create';
 	$view_url = '%s';
 
 	$languages = get_languages();
