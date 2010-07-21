@@ -16,6 +16,11 @@ h1 {
 	font-weight:bold;
 	font-size:2.0em;
   }
+h2 {
+	margin-top:15px;
+	font-weight:bold;
+	font-size:1.5em;
+  }
 p {
   font-size:1.0em;
   }

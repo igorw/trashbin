@@ -29,7 +29,7 @@ try
 	$languages = get_languages();
 	
 	$action = isset($_GET['q']) ? (string) $_GET['q'] : 'index';
-	if (!in_array($action, array('index', 'create', 'view')))
+	if (!in_array($action, array('index', 'create', 'view', 'about')))
 	{
 		throw new FileNotFoundException('page not found');
 	}
@@ -96,6 +96,15 @@ try
 
 			$template->display(array(
 				'paste'		=> $paste,
+				'index_url'	=> $index_url,
+				'footer'	=> $config['global']['footer'],
+			));
+		break;
+
+		case 'about':
+			$template = $twig->loadTemplate('about.html');
+
+			$template->display(array(
 				'index_url'	=> $index_url,
 				'footer'	=> $config['global']['footer'],
 			));
