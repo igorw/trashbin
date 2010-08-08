@@ -57,6 +57,7 @@ pre {
   background-color:#f1f1f1;
   padding:5px;
   white-space:wrap;
+  overflow:auto;
   }
 span a:hover,input:hover {
   background-color:#ccc;
