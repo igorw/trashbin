@@ -20,6 +20,9 @@ $twig = new Twig_Environment($loader, array(
 	'debug' => $config['twig']['debug'],
 ));
 
+// make sure charset is utf-8
+header('Content-Type: text/html; charset=utf-8');
+
 try
 {
 	$index_url = '.';
