@@ -50,6 +50,8 @@ input,span a {
   text-decoration:none;
   text-align:center;
   margin:5px 0;
+  float:left;
+  margin-right:10px;
   }
 pre {
   margin:15px 0;
@@ -66,6 +68,7 @@ span a:hover,input:hover {
   color:#ff0000;
   }
 #footer {
+  clear:left;
   text-align:right;
   font-size:0.8em;
   }

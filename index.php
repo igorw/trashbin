@@ -25,6 +25,7 @@ try
 	$index_url = '.';
 	$create_url = 'create';
 	$view_url = '%s';
+	$copy_url = './?parent=%s';
 
 	$languages = get_languages();
 	
@@ -37,11 +38,15 @@ try
 	switch ($action)
 	{
 		case 'index':
+			$parent_id = isset($_GET['parent']) ? (string) $_GET['parent'] : false;
+			$parent = ($parent_id) ? Doctrine_Core::getTable('Paste')->findOneByHashId($parent_id) : false;
+
 			$template = $twig->loadTemplate('index.html');
 
 			$template->display(array(
 				'create_url'	=> $create_url,
 				'languages'	=> $languages,
+				'paste'		=> $parent,
 				'footer'	=> $config['global']['footer'],
 			));
 		break;
@@ -95,8 +100,9 @@ try
 			$template = $twig->loadTemplate('view.html');
 
 			$template->display(array(
-				'paste'		=> $paste,
 				'index_url'	=> $index_url,
+				'copy_url'	=> sprintf($copy_url, $hash_id),
+				'paste'		=> $paste,
 				'footer'	=> $config['global']['footer'],
 			));
 		break;
