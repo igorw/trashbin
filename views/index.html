@@ -11,7 +11,9 @@
     <select name="language">
       <option value="">none</option>
       {% for language in languages %}
-      <option>{{ language|e }}</option>
+      <option{% if paste and paste.language == language %} selected="selected"{% endif %}>
+        {{ language|e }}
+      </option>
       {% endfor %}
     </select>
     <textarea name="content">{{ paste.content|e }}</textarea>
