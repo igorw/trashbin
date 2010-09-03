@@ -115,20 +115,13 @@ catch (RedirectException $e)
 {
 	redirect($e->getMessage());
 }
-catch (FileNotFoundException $e)
-{
-	file_not_found();
-
-	$template = $twig->loadTemplate('error.html');
-
-	$template->display(array(
-		'index_url'	=> $index_url,
-		'message'	=> $e->getMessage(),
-		'footer'	=> $config['global']['footer'],
-	));
-}
 catch (Exception $e)
 {
+	if ($e instanceof FileNotFoundException)
+	{
+		file_not_found();
+	}
+
 	$template = $twig->loadTemplate('error.html');
 
 	$template->display(array(
