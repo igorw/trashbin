@@ -42,8 +42,6 @@ to generate the models from the schema use:
 
 to migrate the database use:
 
-to generate the models from the schema use:
-
     ./doctrine migrate
 
 **note:** always generate the migration first.
