@@ -2,14 +2,16 @@ pre.sh_sourceCode {
   color: black;
   font-style: normal;
   font-weight: normal;
+  font-family: monospace;
+  font-size: 15px;
 }
 
 pre.sh_sourceCode .sh_keyword { color: blue; }           /* language keywords */
 pre.sh_sourceCode .sh_type { color: darkgreen; }                            /* basic types */
 pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
-pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
-pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
-pre.sh_sourceCode .sh_specialchar { color: pink; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_string { color: red; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: pink; }  /* e.g., \n, \t, \\ */
 pre.sh_sourceCode .sh_comment { color: brown; font-style: italic; }         /* comments */
 pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
 pre.sh_sourceCode .sh_preproc { color: darkblue; }       /* e.g., #include, import */
