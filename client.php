@@ -8,6 +8,9 @@
  * file that was distributed with this source code.
  */
 
+// USAGE
+// php client.php < some_file
+
 $base_url = 'http://trashb.info/%s';
 
 $info = fstat(STDIN);
