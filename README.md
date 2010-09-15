@@ -12,6 +12,8 @@ simple pastebin written in PHP
     ./doctrine create-db
     ./doctrine migrate
 
+create a cron job to run garbage_collector.php every now and then.
+
 ## config
 
 the following options can be set in config.yml
