@@ -1,4 +1,5 @@
 config.yml
+silex.phar
 data/*
 cache/twig/*.php
 .DS_Store

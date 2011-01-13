@@ -4,14 +4,20 @@
  *
  * (c) 2010 Igor Wiedler
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
-require dirname(__FILE__) . '/bootstrap.php';
+require_once __DIR__.'/silex.phar';
+require __DIR__.'/bootstrap.php';
 
-$q = Doctrine_Query::create()
-	->delete('Paste p')
-	->where('p.created_at < ?', date('Y-m-d H:i:s', strtotime($config['global']['gc_interval'])));
-$count = $q->execute();
-echo "$count records deleted\n";
+$pastes = $container->get('mongo.pastes');
+
+$result = $pastes->remove(
+    array('createdAt' => array(
+        '$lt' => new MongoDate(strtotime($container->getParameter('app.gc_interval'))))
+    ),
+    array('safe' => true)
+);
+
+echo "{$result['n']} records deleted\n";

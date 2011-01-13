@@ -1,12 +1,7 @@
-<Files "config.yml">
-	Order Allow,Deny
-	Deny from All
-</Files>
-
-RewriteEngine On
-RewriteBase /trashbin
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([0-9a-f]{8})$ index.php?q=view&id=$1 [L]
-RewriteRule ^create$ index.php?q=create [L]
-RewriteRule ^about$ index.php?q=about [L]
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	#RewriteBase /path/to/app
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

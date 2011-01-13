@@ -1,7 +1,24 @@
-global:
-  gc_interval: 24 hours ago
-  footer: Hosted by <a href="https://affiliates.nexcess.net/idevaffiliate.php?id=1184">Nexcess.net</a>
-doctrine:
-  dsn: sqlite:data/development.sqlite
-twig:
-  debug: true
+parameters:
+  app.gc_interval: 24 hours ago
+  app.footer: 'Hosted by <a href="https://affiliates.nexcess.net/idevaffiliate.php?id=1184">Nexcess.net</a>'
+  mongo.dbname: trashbin
+
+services:
+  framework:
+    class: Silex\Framework
+  mongo.pastes:
+    class: MongoCollection
+    arguments: [@mongo.db, 'paste']
+  mongo.db:
+    class: MongoDB
+    arguments: [@mongo, %mongo.dbname%]
+  mongo:
+    class: Mongo
+    arguments:
+  twig: @twig.environment
+  twig.environment:
+    class: Twig_Environment
+    arguments: [@twig.loader, { cache: %kernel.cache_dir%/twig, debug: true }]
+  twig.loader:
+    class: Twig_Loader_Filesystem
+    arguments: [views]

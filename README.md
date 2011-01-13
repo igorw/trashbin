@@ -4,55 +4,36 @@ simple pastebin written in PHP
 
 ## setup
 
+set up [silex](https://github.com/igorw/Silex) dependency:
+
+    git clone git://github.com/igorw/Silex.git
+    cd Silex
+    php compile.php
+    cp silex.phar ..
+    cd ..
+    rm -rf Silex
+
+install and start [mongodb](http://www.mongodb.org).
+
+set up [twig](http://www.twig-project.org) dependency:
+
     git submodule update --init
     cp example.config.yml config.yml
     # adjust config.yml
     cp example.htaccess .htaccess
     # adjust .htaccess
-    ./doctrine create-db
-    ./doctrine migrate
 
 create a cron job to run garbage_collector.php every now and then.
 
-## config
+## contribute
 
-the following options can be set in config.yml
-
-### global
-
-**gc_interval**: pastes created before this time will be removed. example value: "24 hours ago"
-
-**footer**: is displayed at the foot of the page.
-
-### doctrine
-
-**dsn**: data source to be used by the doctrine orm, for example: "mysql://root:rootpassword@mydbserver/mydb"
-
-### twig
-
-**debug**: debug mode takes care of recompilation and uses less agressive caching.
-
-## dev
-
-to generate a new migration use:
-
-     ./doctrine generate-migrations-diff
-
-to generate the models from the schema use:
-
-    ./doctrine generate-models-yaml
-
-to migrate the database use:
-
-    ./doctrine migrate
-
-**note:** always generate the migration first.
+fork, branch, hack, pull request. thanks!
 
 ## using
 
-* doctrine
+* silex
+* mongodb
 * twig
-* symfony yaml component
 * shjs
 
 ## license

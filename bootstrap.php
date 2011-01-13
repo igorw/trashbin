@@ -4,29 +4,22 @@
  *
  * (c) 2010 Igor Wiedler
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
-// sfYaml
-require dirname(__FILE__) . '/vendor/sfYaml/lib/sfYaml.php';
-$config = sfYaml::load('config.yml');
+use Symfony\Component\HttpFoundation\UniversalClassLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-// doctrine
-require_once dirname(__FILE__) . '/vendor/doctrine/lib/Doctrine/Core.php';
-spl_autoload_register(array('Doctrine_Core', 'autoload'));
-spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
+$loader = new UniversalClassLoader;
+$loader->registerPrefixes(array(
+	'Twig_'			=> __DIR__ . '/vendor/Twig/lib',
+));
+$loader->register();
 
-$manager = Doctrine_Manager::getInstance();
+// di container
+$container = new ContainerBuilder();
 
-// autoloading
-$manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
-Doctrine_Core::loadModels(dirname(__FILE__) . '/models');
-
-$conn = Doctrine_Manager::connection($config['doctrine']['dsn']);
-$conn->setCharset('utf8');
-$conn->setCollate('utf8_bin');
-
-// twig
-require_once dirname(__FILE__) . '/vendor/twig/lib/Twig/Autoloader.php';
-Twig_Autoloader::register();
+$loader = new YamlFileLoader($container);
+$loader->load(__DIR__.'/config.yml');
