@@ -15,6 +15,12 @@ set up [silex](https://github.com/igorw/Silex) dependency:
 
 install and start [mongodb](http://www.mongodb.org).
 
+install the mongodb driver for php:
+
+    pecl install mongo
+    vi /path/to/php.ini
+    # extension=mongo.so
+
 set up [twig](http://www.twig-project.org) dependency:
 
     git submodule update --init
