@@ -14,11 +14,10 @@ services:
     arguments: [@mongo, %mongo.dbname%]
   mongo:
     class: Mongo
-    arguments:
   twig: @twig.environment
   twig.environment:
     class: Twig_Environment
-    arguments: [@twig.loader, { cache: %kernel.cache_dir%/twig, debug: true }]
+    arguments: [@twig.loader, { cache: cache/twig, debug: true }]
   twig.loader:
     class: Twig_Loader_Filesystem
     arguments: [views]

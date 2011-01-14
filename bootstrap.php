@@ -21,5 +21,7 @@ $loader->register();
 // di container
 $container = new ContainerBuilder();
 
+$env = isset($_SERVER['APP_ENV']) ? $_SERVER['APP_ENV'] : 'dev';
+
 $loader = new YamlFileLoader($container);
-$loader->load(__DIR__.'/config.yml');
+$loader->load(__DIR__."/$env.config.yml");

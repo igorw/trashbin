@@ -24,8 +24,11 @@ install the mongodb driver for php:
 set up [twig](http://www.twig-project.org) dependency:
 
     git submodule update --init
-    cp example.config.yml config.yml
-    # adjust config.yml
+
+configure
+
+    cp config.example.yml dev.config.yml
+    # adjust dev.config.yml
     cp example.htaccess .htaccess
     # adjust .htaccess
 

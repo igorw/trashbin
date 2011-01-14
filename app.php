@@ -17,18 +17,31 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
+$container->setParameter('app.get_languages', function() {
+    $languages = array();
+    $finder = new Finder();
+    foreach ($finder->name('*.min.js')->in(__DIR__.'/vendor/shjs/lang') as $file) {
+        if (preg_match('#sh_(.+).min.js#', basename($file), $matches)) {
+            $languages[] = $matches[1];
+        }
+    }
+    return $languages;
+});
+
 $app = $container->get('framework');
 
 $app->before(function() use ($app, $container) {
     $request = $app->getRequest();
     $twig = $container->get('twig');
 
+    $getLanguages = $container->getParameter('app.get_languages');
+
     // set up some template globals
     $twig->addGlobal('footer', $container->getParameter('app.footer'));
     $twig->addGlobal('base_path', $request->getBasePath());
     $twig->addGlobal('index_url', $request->getBasePath().'/');
     $twig->addGlobal('create_url', $request->getBasePath().'/create');
-    $twig->addGlobal('languages', getLanguages());
+    $twig->addGlobal('languages', $getLanguages());
 });
 
 $app->get('/', function() use ($app, $container) {
@@ -80,8 +93,10 @@ $app->post('/create', function() use ($app, $container) {
         ));
     }
 
+    $getLanguages = $container->getParameter('app.get_languages');
+
     $language = (string) $request->get('language', '');
-    if (in_array($language, getLanguages())) {
+    if (in_array($language, $getLanguages())) {
         $paste['language'] = $language;
     }
 
@@ -138,14 +153,3 @@ $app->error(function(Exception $e) use ($app, $container) {
 });
 
 return $app;
-
-function getLanguages() {
-    $languages = array();
-    $finder = new Finder();
-    foreach ($finder->name('*.min.js')->in(__DIR__.'/vendor/shjs/lang') as $file) {
-        if (preg_match('#sh_(.+).min.js#', basename($file), $matches)) {
-            $languages[] = $matches[1];
-        }
-    }
-    return $languages;
-}
