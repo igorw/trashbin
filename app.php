@@ -19,6 +19,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 $app = $container->get('framework');
 
+$app->before(function() use ($app, $container) {
+    $request = $app->getRequest();
+    $twig = $container->get('twig');
+
+    // set up some template globals
+    $twig->addGlobal('footer', $container->getParameter('app.footer'));
+    $twig->addGlobal('base_path', $request->getBasePath());
+    $twig->addGlobal('index_url', $request->getBasePath().'/');
+    $twig->addGlobal('create_url', $request->getBasePath().'/create');
+    $twig->addGlobal('languages', getLanguages());
+});
+
 $app->get('/', function() use ($app, $container) {
     $request = $app->getRequest();
     $twig = $container->get('twig');
@@ -33,11 +45,7 @@ $app->get('/', function() use ($app, $container) {
     $template = $twig->loadTemplate('index.html');
 
     return $template->render(array(
-        'base_path'	=> $request->getBasePath(),
-        'create_url'    => $request->getBasePath().'/create',
-        'languages' => getLanguages(),
         'paste'     => $parent,
-        'footer'    => $container->getParameter('app.footer'),
     ));
 });
 
@@ -61,25 +69,19 @@ $app->post('/create', function() use ($app, $container) {
         'createdAt' => new MongoDate(),
     );
 
-    $languages = getLanguages();
-
     if ('' === trim($paste['content'])) {
         $errorMsg = 'you must enter some content';
 
         $template = $twig->loadTemplate('index.html');
 
         return $template->render(array(
-            'base_path'	=> $request->getBasePath(),
-            'create_url'	=> $request->getBasePath().'/create',
-            'languages'	=> $languages,
             'error_msg'	=> $errorMsg,
             'paste'		=> $paste,
-            'footer'	=> $container->getParameter('app.footer'),
         ));
     }
 
     $language = (string) $request->get('language', '');
-    if (in_array($language, $languages)) {
+    if (in_array($language, getLanguages())) {
         $paste['language'] = $language;
     }
 
@@ -105,11 +107,8 @@ $app->get('/view/{id}', function($id) use ($app, $container) {
     $template = $twig->loadTemplate('view.html');
 
     return $template->render(array(
-        'base_path'	=> $request->getBasePath(),
-        'index_url'	=> $request->getBasePath().'/',
         'copy_url'	=> $request->getBasePath().'/?parent='.$paste['_id'],
         'paste'		=> $paste,
-        'footer'	=> $container->getParameter('app.footer'),
     ));
 });
 
@@ -119,11 +118,7 @@ $app->get('/about', function() use ($app, $container) {
 
     $template = $twig->loadTemplate('about.html');
 
-    return $template->render(array(
-        'base_path'	=> $request->getBasePath(),
-        'index_url'	=> $request->getBasePath().'/',
-        'footer'	=> $container->getParameter('app.footer'),
-    ));
+    return $template->render(array());
 });
 
 $app->error(function(Exception $e) use ($app, $container) {
@@ -138,10 +133,7 @@ $app->error(function(Exception $e) use ($app, $container) {
     $template = $twig->loadTemplate('error.html');
 
     return new Response($template->render(array(
-        'base_path'	=> $request->getBasePath(),
-        'index_url'	=> $request->getBasePath().'/',
         'message'	=> $e->getMessage(),
-        'footer'	=> $container->getParameter('app.footer'),
     )), $code);
 });
 
