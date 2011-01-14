@@ -14,7 +14,7 @@ require dirname(__FILE__) . '/bootstrap.php';
 use Silex\Framework;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
 $container->setParameter('app.get_languages', function() {
@@ -141,7 +141,7 @@ $app->error(function(Exception $e) use ($app, $container) {
     $twig = $container->get('twig');
 
     $code = 500;
-    if ($e instanceof FileNotFoundException) {
+    if ($e instanceof NotFoundHttpException) {
         $code = 404;
     }
 
