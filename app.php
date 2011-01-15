@@ -116,7 +116,7 @@ $app->get('/view/{id}', function($id) use ($app, $container) {
     $paste = $pastes->findOne(array("_id" => $id));
 
     if (!$paste) {
-        throw new FileNotFoundException('paste not found');
+        throw new NotFoundHttpException('paste not found');
     }
 
     $template = $twig->loadTemplate('view.html');
