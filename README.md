@@ -41,6 +41,13 @@ create a cron job to run garbage_collector.php every now and then.
 
 fork, branch, hack, pull request. thanks!
 
+## run tests
+
+phpunit is required for the tests.
+
+    cp config.example.yml test.config.yml
+    phpunit
+
 ## using
 
 * silex
