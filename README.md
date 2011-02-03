@@ -13,7 +13,10 @@ set up [silex](https://github.com/igorw/Silex) dependency:
     cd ..
     rm -rf Silex
 
-install and start [mongodb](http://www.mongodb.org).
+install and start [mongodb](http://www.mongodb.org):
+
+    brew install mongo
+    mongod
 
 install the mongodb driver for php:
 
