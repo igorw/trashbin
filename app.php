@@ -9,7 +9,7 @@
  */
 
 require_once __DIR__.'/silex.phar';
-require dirname(__FILE__) . '/bootstrap.php';
+require __DIR__.'/bootstrap.php';
 
 use Silex\Framework;
 
