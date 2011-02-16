@@ -4,7 +4,8 @@ parameters:
   mongo.dbname: trashbin
 
 services:
-  framework:
+  silex: @silex.framework
+  silex.framework:
     class: Silex\Framework
   mongo.pastes:
     class: MongoCollection

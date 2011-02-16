@@ -28,7 +28,7 @@ $container->setParameter('app.get_languages', function() {
     return $languages;
 });
 
-$app = $container->get('framework');
+$app = $container->get('silex');
 
 $app->before(function() use ($app, $container) {
     $request = $app->getRequest();
