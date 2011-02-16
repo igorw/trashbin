@@ -8,9 +8,10 @@
  * with this source code in the file LICENSE.
  */
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+use Symfony\Component\Config\FileLocator;
 
 $loader = new UniversalClassLoader;
 $loader->registerPrefixes(array(
@@ -23,5 +24,5 @@ $container = new ContainerBuilder();
 
 $env = isset($_SERVER['APP_ENV']) ? $_SERVER['APP_ENV'] : 'dev';
 
-$loader = new YamlFileLoader($container);
-$loader->load(__DIR__."/$env.config.yml");
+$loader = new YamlFileLoader($container, new FileLocator(__DIR__));
+$loader->load("$env.config.yml");
