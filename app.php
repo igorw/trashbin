@@ -25,8 +25,8 @@ require __DIR__.'/bootstrap.php';
 $app->before(function() use ($app) {
     // set up some template globals
     $app['twig']->addGlobal('base_path', $app['request']->getBasePath());
-    $app['twig']->addGlobal('index_url', $app['request']->getBasePath().'/');
-    $app['twig']->addGlobal('create_url', $app['request']->getBasePath().'/create');
+    $app['twig']->addGlobal('index_url', $app['url_generator']->generate('homepage'));
+    $app['twig']->addGlobal('create_url', $app['url_generator']->generate('create'));
     $app['twig']->addGlobal('languages', $app['app.languages']);
 });
 
@@ -41,10 +41,11 @@ $app->get('/', function() use ($app) {
     return $app['twig']->render('index.html', array(
         'paste'     => $parent,
     ));
-});
+})
+->bind('homepage');
 
 $app->get('/create', function() use ($app) {
-    return $app->redirect($app['request']->getBasePath());
+    return $app->redirect($app['url_generator']->generate('homepage'));
 });
 
 $app->post('/create', function() use ($app) {
@@ -70,8 +71,9 @@ $app->post('/create', function() use ($app) {
 
     $app['mongo.pastes']->insert($paste);
 
-    return $app->redirect($app['request']->getBasePath().'/'.$paste['_id']);
-});
+    return $app->redirect($app['url_generator']->generate('view', array('id' => $paste['_id'])));
+})
+->bind('create');
 
 $app->get('/about', function() use ($app) {
     return $app['twig']->render('about.html');
@@ -85,10 +87,11 @@ $app->get('/{id}', function($id) use ($app) {
     }
 
     return $app['twig']->render('view.html', array(
-        'copy_url'	=> $app['request']->getBasePath().'/?parent='.$paste['_id'],
+        'copy_url'	=> $app['url_generator']->generate('homepage', array('parent' => $paste['_id'])),
         'paste'		=> $paste,
     ));
 })
+->bind('view')
 ->assert('id', '[0-9a-f]{8}');
 
 $app->error(function(Exception $e) use ($app) {

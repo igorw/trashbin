@@ -9,6 +9,7 @@
  */
 
 use Silex\Extension\TwigExtension;
+use Silex\Extension\UrlGeneratorExtension;
 
 use Symfony\Component\Finder\Finder;
 
@@ -22,6 +23,8 @@ $app->register(new TwigExtension(), array(
     'twig.class_path'   => __DIR__.'/vendor/twig/lib',
     'twig.options'      => array('cache' => __DIR__.'/cache/twig', 'debug' => true),
 ));
+
+$app->register(new UrlGeneratorExtension());
 
 $app['autoloader']->registerNamespace('Symfony', __DIR__.'/vendor/symfony/src');
 
