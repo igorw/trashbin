@@ -7,3 +7,6 @@
 [submodule "vendor/sfYaml"]
 	path = vendor/sfYaml
 	url = http://github.com/fabpot/yaml.git
+[submodule "vendor/symfony/src/Symfony/Component/Finder"]
+	path = vendor/symfony/src/Symfony/Component/Finder
+	url = https://github.com/symfony/Finder.git

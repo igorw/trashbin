@@ -9,72 +9,46 @@
  */
 
 require_once __DIR__.'/silex.phar';
-require __DIR__.'/bootstrap.php';
 
-use Silex\Framework;
+use Silex\Application;
+use Silex\Extension\TwigExtension;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BaseHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-$container->setParameter('app.get_languages', function() {
-    $languages = array();
-    $finder = new Finder();
-    foreach ($finder->name('*.min.js')->in(__DIR__.'/vendor/shjs/lang') as $file) {
-        if (preg_match('#sh_(.+).min.js#', basename($file), $matches)) {
-            $languages[] = $matches[1];
-        }
-    }
-    return $languages;
-});
+$app = new Application();
 
-$app = $container->get('silex');
+require __DIR__.'/bootstrap.php';
 
-$app->before(function() use ($app, $container) {
-    $request = $app->getRequest();
-    $twig = $container->get('twig');
-
-    $getLanguages = $container->getParameter('app.get_languages');
-
+$app->before(function() use ($app) {
     // set up some template globals
-    $twig->addGlobal('footer', $container->getParameter('app.footer'));
-    $twig->addGlobal('base_path', $request->getBasePath());
-    $twig->addGlobal('index_url', $request->getBasePath().'/');
-    $twig->addGlobal('create_url', $request->getBasePath().'/create');
-    $twig->addGlobal('languages', $getLanguages());
+    $app['twig']->addGlobal('base_path', $app['request']->getBasePath());
+    $app['twig']->addGlobal('index_url', $app['request']->getBasePath().'/');
+    $app['twig']->addGlobal('create_url', $app['request']->getBasePath().'/create');
+    $app['twig']->addGlobal('languages', $app['app.languages']);
 });
 
-$app->get('/', function() use ($app, $container) {
-    $request = $app->getRequest();
-    $twig = $container->get('twig');
-
-    $parentId = $request->get('parent', false);
+$app->get('/', function() use ($app) {
+    $parentId = $app['request']->get('parent', false);
     $parent = false;
     if ($parentId) {
-        $pastes = $container->get('mongo.pastes');
+        $pastes = $app['mongo.pastes'];
         $parent = $pastes->findOne(array("_id" => $parentId));
     }
 
-    $template = $twig->loadTemplate('index.html');
-
-    return $template->render(array(
+    return $app['twig']->render('index.html', array(
         'paste'     => $parent,
     ));
 });
 
 $app->get('/create', function() use ($app) {
-    $request = $app->getRequest();
-
-    $response = new Response;
-    $response->setRedirect($request->getBasePath().'/');
-    return $response; 
+    return $app->redirect($app['request']->getBasePath());
 });
 
-$app->post('/create', function() use ($app, $container) {
-    $request = $app->getRequest();
-    $twig = $container->get('twig');
-
-    $content = preg_replace('#\\r?\\n#', "\n", (string) $request->get('content', ''));
+$app->post('/create', function() use ($app) {
+    $content = preg_replace('#\r?\n#', "\n", $app['request']->get('content', ''));
 
     $paste = array(
         '_id'       => substr(hash('sha512', $content . time() . rand(0, 255)), 0, 8),
@@ -83,71 +57,44 @@ $app->post('/create', function() use ($app, $container) {
     );
 
     if ('' === trim($paste['content'])) {
-        $errorMsg = 'you must enter some content';
-
-        $template = $twig->loadTemplate('index.html');
-
-        return $template->render(array(
-            'error_msg'	=> $errorMsg,
+        return $app['twig']->render('index.html', array(
+            'error_msg'	=> 'you must enter some content',
             'paste'		=> $paste,
         ));
     }
 
-    $getLanguages = $container->getParameter('app.get_languages');
-
-    $language = (string) $request->get('language', '');
-    if (in_array($language, $getLanguages())) {
+    $language = $app['request']->get('language', '');
+    if (in_array($language, $app['app.languages'])) {
         $paste['language'] = $language;
     }
 
-    $pastes = $container->get('mongo.pastes');
-    $pastes->insert($paste);
+    $app['mongo.pastes']->insert($paste);
 
-    $response = new Response;
-    $response->setRedirect($request->getBasePath().'/view/'.$paste['_id']);
-    return $response;
+    return $app->redirect($app['request']->getBasePath().'/'.$paste['_id']);
 });
 
-$app->get('/view/{id}', function($id) use ($app, $container) {
-    $request = $app->getRequest();
-    $twig = $container->get('twig');
+$app->get('/about', function() use ($app) {
+    return $app['twig']->render('about.html');
+});
 
-    $pastes = $container->get('mongo.pastes');
-    $paste = $pastes->findOne(array("_id" => $id));
+$app->get('/{id}', function($id) use ($app) {
+    $paste = $app['mongo.pastes']->findOne(array("_id" => $id));
 
     if (!$paste) {
         throw new NotFoundHttpException('paste not found');
     }
 
-    $template = $twig->loadTemplate('view.html');
-
-    return $template->render(array(
-        'copy_url'	=> $request->getBasePath().'/?parent='.$paste['_id'],
+    return $app['twig']->render('view.html', array(
+        'copy_url'	=> $app['request']->getBasePath().'/?parent='.$paste['_id'],
         'paste'		=> $paste,
     ));
-});
+})
+->assert('id', '[0-9a-f]{8}');
 
-$app->get('/about', function() use ($app, $container) {
-    $request = $app->getRequest();
-    $twig = $container->get('twig');
+$app->error(function(Exception $e) use ($app) {
+    $code = ($e instanceof BaseHttpException) ? $e->getStatusCode() : 500;
 
-    $template = $twig->loadTemplate('about.html');
-
-    return $template->render(array());
-});
-
-$app->error(function(Exception $e) use ($app, $container) {
-    $request = $app->getRequest();
-    $twig = $container->get('twig');
-
-    $code = 500;
-    if ($e instanceof NotFoundHttpException) {
-        $code = 404;
-    }
-
-    $template = $twig->loadTemplate('error.html');
-
-    return new Response($template->render(array(
+    return new Response($app['twig']->render('error.html', array(
         'message'	=> $e->getMessage(),
     )), $code);
 });

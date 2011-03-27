@@ -8,16 +8,8 @@
  * with this source code in the file LICENSE.
  */
 
-require_once __DIR__.'/silex.phar';
-require __DIR__.'/bootstrap.php';
+$app = require __DIR__.'/app.php';
 
-$pastes = $container->get('mongo.pastes');
+$deleted = $app['app.garbage_collect']();
 
-$result = $pastes->remove(
-    array('createdAt' => array(
-        '$lt' => new MongoDate(strtotime($container->getParameter('app.gc_interval'))))
-    ),
-    array('safe' => true)
-);
-
-echo "{$result['n']} records deleted\n";
+echo "$deleted records deleted\n";

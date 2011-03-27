@@ -1,6 +1,3 @@
-dev.config.yml
-prod.config.yml
-test.config.yml
 silex.phar
 cache
 .DS_Store

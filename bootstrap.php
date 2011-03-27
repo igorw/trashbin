@@ -8,21 +8,53 @@
  * with this source code in the file LICENSE.
  */
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\ClassLoader\UniversalClassLoader;
-use Symfony\Component\Config\FileLocator;
+use Silex\Extension\TwigExtension;
 
-$loader = new UniversalClassLoader;
-$loader->registerPrefixes(array(
-	'Twig_'			=> __DIR__ . '/vendor/Twig/lib',
+use Symfony\Component\Finder\Finder;
+
+/* prevent direct access */
+if (!$app) {
+    exit;
+}
+
+$app->register(new TwigExtension(), array(
+    'twig.path'         => __DIR__.'/views',
+    'twig.class_path'   => __DIR__.'/vendor/twig/lib',
+    'twig.options'      => array('cache' => __DIR__.'/cache/twig', 'debug' => true),
 ));
-$loader->register();
 
-// di container
-$container = new ContainerBuilder();
+$app['autoloader']->registerNamespace('Symfony', __DIR__.'/vendor/symfony/src');
 
-$env = isset($_SERVER['APP_ENV']) ? $_SERVER['APP_ENV'] : 'dev';
+$app['app.languages'] = function() {
+    $languages = array();
+    $finder = new Finder();
+    foreach ($finder->name('*.min.js')->in(__DIR__.'/vendor/shjs/lang') as $file) {
+        if (preg_match('#sh_(.+).min.js#', basename($file), $matches)) {
+            $languages[] = $matches[1];
+        }
+    }
+    return $languages;
+};
 
-$loader = new YamlFileLoader($container, new FileLocator(__DIR__));
-$loader->load("$env.config.yml");
+$app['app.gc_interval'] = strtotime('24 hours ago');
+$app['footer'] = 'Hosted by <a href="https://affiliates.nexcess.net/idevaffiliate.php?id=1184">Nexcess.net</a>';
+
+$app['app.garbage_collect'] = $app->protect(function() use ($app) {
+    $result = $app['mongo.pastes']->remove(
+        array('createdAt' => array(
+            '$lt' => new MongoDate($app['app.gc_interval']))
+        ),
+        array('safe' => true)
+    );
+
+    return $result['n'];
+});
+
+$app['mongo.pastes'] = function($app) {
+    return $app['mongo.db']->paste;
+};
+
+$app['mongo.db'] = $app->share(function($app) {
+    $mongo = new Mongo();
+    return $mongo->trashbin;
+});
