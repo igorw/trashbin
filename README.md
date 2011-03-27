@@ -4,11 +4,11 @@ simple pastebin written in PHP
 
 ## setup
 
-set up [silex](https://github.com/igorw/Silex) dependency:
+set up [silex](https://github.com/fabpot/Silex) dependency:
 
     git clone git://github.com/igorw/Silex.git
     cd Silex
-    php compile.php
+    ./compile
     cp silex.phar ..
     cd ..
     rm -rf Silex
