@@ -30,8 +30,6 @@ set up [twig](http://www.twig-project.org) dependency:
 
 configure
 
-    cp config.example.yml dev.config.yml
-    # adjust dev.config.yml
     cp example.htaccess .htaccess
     # adjust .htaccess
 
@@ -45,7 +43,6 @@ fork, branch, hack, pull request. thanks!
 
 phpunit is required for the tests.
 
-    cp config.example.yml test.config.yml
     phpunit
 
 ## using
