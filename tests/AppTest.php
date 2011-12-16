@@ -2,13 +2,11 @@
 
 use Silex\WebTestCase;
 
-require_once __DIR__.'/silex.phar';
-
-class test extends WebTestCase
+class AppTest extends WebTestCase
 {
-    public function createApp()
+    public function createApplication()
     {
-        return require __DIR__.'/app.php';
+        return require __DIR__.'/../src/app.php';
     }
 
     public function testRoot()
