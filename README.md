@@ -4,14 +4,10 @@ simple pastebin written in PHP
 
 ## setup
 
-set up [silex](https://github.com/fabpot/Silex) dependency:
+set up dependencies:
 
-    git clone git://github.com/igorw/Silex.git
-    cd Silex
-    ./compile
-    cp silex.phar ..
-    cd ..
-    rm -rf Silex
+    wget http://getcomposer.org/composer.phar
+    php composer.phar install
 
 install and start [mongodb](http://www.mongodb.org):
 
@@ -24,14 +20,14 @@ install the mongodb driver for php:
     vi /path/to/php.ini
     # extension=mongo.so
 
-set up [twig](http://www.twig-project.org) dependency:
+set up [twig](http://twig.sensiolabs.org) dependency:
 
     git submodule update --init
 
 configure
 
-    cp example.htaccess .htaccess
-    # adjust .htaccess
+    cp web/example.htaccess web/.htaccess
+    # adjust web/.htaccess
 
 create a cron job to run garbage_collector.php every now and then.
 

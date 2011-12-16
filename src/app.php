@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-require_once __DIR__.'/silex.phar';
+require_once __DIR__.'/../vendor/.composer/autoload.php';
 
 use Silex\Application;
 use Silex\Extension\TwigExtension;
@@ -22,7 +22,7 @@ $app = new Application();
 
 require __DIR__.'/bootstrap.php';
 
-$app->before(function() use ($app) {
+$app->before(function () use ($app) {
     // set up some template globals
     $app['twig']->addGlobal('base_path', $app['request']->getBasePath());
     $app['twig']->addGlobal('index_url', $app['url_generator']->generate('homepage'));
@@ -30,7 +30,7 @@ $app->before(function() use ($app) {
     $app['twig']->addGlobal('languages', $app['app.languages']);
 });
 
-$app->get('/', function() use ($app) {
+$app->get('/', function () use ($app) {
     $parentId = $app['request']->get('parent', false);
     $parent = false;
     if ($parentId) {
@@ -44,11 +44,11 @@ $app->get('/', function() use ($app) {
 })
 ->bind('homepage');
 
-$app->get('/create', function() use ($app) {
+$app->get('/create', function () use ($app) {
     return $app->redirect($app['url_generator']->generate('homepage'));
 });
 
-$app->post('/create', function() use ($app) {
+$app->post('/create', function () use ($app) {
     $content = preg_replace('#\r?\n#', "\n", $app['request']->get('content', ''));
 
     $paste = array(
@@ -75,11 +75,11 @@ $app->post('/create', function() use ($app) {
 })
 ->bind('create');
 
-$app->get('/about', function() use ($app) {
+$app->get('/about', function () use ($app) {
     return $app['twig']->render('about.html');
 });
 
-$app->get('/{id}', function($id) use ($app) {
+$app->get('/{id}', function ($id) use ($app) {
     $paste = $app['mongo.pastes']->findOne(array("_id" => $id));
 
     if (!$paste) {
@@ -94,7 +94,7 @@ $app->get('/{id}', function($id) use ($app) {
 ->bind('view')
 ->assert('id', '[0-9a-f]{8}');
 
-$app->error(function(Exception $e) use ($app) {
+$app->error(function (Exception $e) use ($app) {
     $code = ($e instanceof BaseHttpException) ? $e->getStatusCode() : 500;
 
     return new Response($app['twig']->render('error.html', array(

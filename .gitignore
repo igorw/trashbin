@@ -1,4 +1,3 @@
-silex.phar
 cache
-.DS_Store
+vendor
 .htaccess
