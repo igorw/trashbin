@@ -8,6 +8,8 @@
  * with this source code in the file LICENSE.
  */
 
+use Predis\Silex\PredisServiceProvider;
+
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 
@@ -25,6 +27,8 @@ $app->register(new TwigServiceProvider(), array(
 
 $app->register(new UrlGeneratorServiceProvider());
 
+$app->register(new PredisServiceProvider());
+
 $app['app.languages'] = function () {
     $languages = array();
     $finder = new Finder();
@@ -36,25 +40,4 @@ $app['app.languages'] = function () {
     return $languages;
 };
 
-$app['app.gc_interval'] = strtotime('24 hours ago');
 $app['footer'] = 'Hosted by <a href="https://affiliates.nexcess.net/idevaffiliate.php?id=1184">Nexcess.net</a>';
-
-$app['app.garbage_collect'] = $app->protect(function () use ($app) {
-    $result = $app['mongo.pastes']->remove(
-        array('createdAt' => array(
-            '$lt' => new MongoDate($app['app.gc_interval']))
-        ),
-        array('safe' => true)
-    );
-
-    return $result['n'];
-});
-
-$app['mongo.pastes'] = function ($app) {
-    return $app['mongo.db']->paste;
-};
-
-$app['mongo.db'] = $app->share(function ($app) {
-    $mongo = new Mongo();
-    return $mongo->trashbin;
-});

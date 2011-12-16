@@ -34,8 +34,7 @@ $app->get('/', function () use ($app) {
     $parentId = $app['request']->get('parent', false);
     $parent = false;
     if ($parentId) {
-        $pastes = $app['mongo.pastes'];
-        $parent = $pastes->findOne(array("_id" => $parentId));
+        $parent = $app['predis']->hgetall($parentId);
     }
 
     return $app['twig']->render('index.html', array(
@@ -51,10 +50,10 @@ $app->get('/create', function () use ($app) {
 $app->post('/create', function () use ($app) {
     $content = preg_replace('#\r?\n#', "\n", $app['request']->get('content', ''));
 
+    $id = substr(hash('sha512', $content . time() . rand(0, 255)), 0, 8);
+
     $paste = array(
-        '_id'       => substr(hash('sha512', $content . time() . rand(0, 255)), 0, 8),
         'content'   => $content,
-        'createdAt' => new MongoDate(),
     );
 
     if ('' === trim($paste['content'])) {
@@ -69,9 +68,9 @@ $app->post('/create', function () use ($app) {
         $paste['language'] = $language;
     }
 
-    $app['mongo.pastes']->insert($paste);
+    $app['predis']->hmset($id, $paste);
 
-    return $app->redirect($app['url_generator']->generate('view', array('id' => $paste['_id'])));
+    return $app->redirect($app['url_generator']->generate('view', array('id' => $id)));
 })
 ->bind('create');
 
@@ -80,14 +79,14 @@ $app->get('/about', function () use ($app) {
 });
 
 $app->get('/{id}', function ($id) use ($app) {
-    $paste = $app['mongo.pastes']->findOne(array("_id" => $id));
+    $paste = $app['predis']->hgetall($id);
 
     if (!$paste) {
         throw new NotFoundHttpException('paste not found');
     }
 
     return $app['twig']->render('view.html', array(
-        'copy_url'	=> $app['url_generator']->generate('homepage', array('parent' => $paste['_id'])),
+        'copy_url'	=> $app['url_generator']->generate('homepage', array('parent' => $id)),
         'paste'		=> $paste,
     ));
 })
