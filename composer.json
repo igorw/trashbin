@@ -3,7 +3,7 @@
         "silex/silex": ">=1.0.0-dev",
         "symfony/finder": ">=2.1-dev",
         "twig/twig": ">=1.4",
-        "predis/predis": "master-dev",
+        "predis/predis": ">=0.7.0",
         "predis/service-provider": "master-dev"
     }
 }
