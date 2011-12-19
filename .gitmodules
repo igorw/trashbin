@@ -1,9 +1,0 @@
-[submodule "vendor/twig"]
-	path = vendor/twig
-	url = http://github.com/fabpot/Twig.git
-[submodule "vendor/doctrine"]
-	path = vendor/doctrine
-	url = http://github.com/doctrine/doctrine1.git
-[submodule "vendor/sfYaml"]
-	path = vendor/sfYaml
-	url = http://github.com/fabpot/yaml.git

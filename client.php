@@ -4,8 +4,8 @@
  *
  * (c) 2010 Igor Wiedler
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 // USAGE
