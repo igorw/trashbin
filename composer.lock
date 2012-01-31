@@ -3,7 +3,15 @@
     "packages": [
         {
             "package": "twig\/twig",
-            "version": "1.5.0-dev"
+            "version": "1.6.0-dev"
+        },
+        {
+            "package": "predis\/predis",
+            "version": "master-dev"
+        },
+        {
+            "package": "symfony\/class-loader",
+            "version": "2.1.0-dev"
         },
         {
             "package": "symfony\/css-selector",
@@ -26,11 +34,11 @@
             "version": "2.1.0-dev"
         },
         {
-            "package": "symfony\/finder",
+            "package": "symfony\/dom-crawler",
             "version": "2.1.0-dev"
         },
         {
-            "package": "symfony\/dom-crawler",
+            "package": "symfony\/finder",
             "version": "2.1.0-dev"
         },
         {
@@ -42,16 +50,12 @@
             "version": "1.0.0-dev"
         },
         {
-            "package": "silex\/silex",
-            "version": "1.0.0-dev"
-        },
-        {
             "package": "predis\/service-provider",
             "version": "master-dev"
         },
         {
-            "package": "predis\/predis",
-            "version": "master-dev"
+            "package": "silex\/silex",
+            "version": "1.0.0-dev"
         }
     ]
 }
