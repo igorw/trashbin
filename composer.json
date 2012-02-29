@@ -4,6 +4,6 @@
         "symfony/finder": ">=2.1-dev",
         "twig/twig": "1.6.0",
         "predis/predis": ">=0.7.0",
-        "predis/service-provider": "master-dev"
+        "predis/service-provider": "dev-master"
     }
 }
