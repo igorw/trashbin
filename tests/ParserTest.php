@@ -34,6 +34,8 @@ class ParserTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array("foo\nbar\nbaz\na\n\nb", "foo\r\nbar\rbaz\na\n\rb"),
+            array("foobar", "foobar"),
+            array("foobar\n", "foobar\n"),
         );
     }
 
