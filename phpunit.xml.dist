@@ -11,12 +11,8 @@
          syntaxCheck="false"
          bootstrap="tests/bootstrap.php"
 >
-    <php>
-        <env name="APP_ENV" value="test" />
-    </php>
-
     <testsuites>
-        <testsuite name="Smasch Test Suite">
+        <testsuite name="Trashbin Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
