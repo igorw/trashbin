@@ -26,6 +26,15 @@ class FunctionalTest extends WebTestCase
         $this->assertContains('textarea', $response->getContent());
     }
 
+    public function testGetCreateShouldRedirectToRoot()
+    {
+        $client = $this->createClient();
+
+        $client->request('GET', '/create');
+        $response = $client->getResponse();
+        $this->assertTrue($response->isRedirect('/'));
+    }
+
     public function testCreatePaste()
     {
         $paste = array('content' => 'foobar');
@@ -54,6 +63,55 @@ class FunctionalTest extends WebTestCase
         $response = $client->getResponse();
         $this->assertTrue($response->isOk());
         $this->assertContains('foobar', $response->getContent());
+    }
+
+    public function testCreatePasteWithoutContentShouldFail()
+    {
+        $client = $this->createClient();
+
+        $crawler = $client->request('GET', '/');
+
+        $form = $crawler->filter('form')->form();
+        $form['content'] = '';
+
+        $client->submit($form);
+
+        $response = $client->getResponse();
+        $this->assertSame(400, $response->getStatusCode());
+    }
+
+    public function testViewPaste()
+    {
+        $paste = array('content' => 'foobar');
+
+        $this->app['app.storage']
+            ->expects($this->once())
+            ->method('get')
+            ->with('abcdef12')
+            ->will($this->returnValue($paste));
+
+        $client = $this->createClient();
+
+        $client->request('GET', '/abcdef12');
+        $response = $client->getResponse();
+        $this->assertTrue($response->isOk());
+        $this->assertContains('foobar', $response->getContent());
+    }
+
+    public function testViewPasteWithInvalidId()
+    {
+        $this->app['app.storage']
+            ->expects($this->once())
+            ->method('get')
+            ->with('00000000')
+            ->will($this->returnValue(null));
+
+        $client = $this->createClient();
+
+        $client->request('GET', '/00000000');
+        $response = $client->getResponse();
+        $this->assertSame(404, $response->getStatusCode());
+        $this->assertContains('paste not found', $response->getContent());
     }
 
     public function testAbout()

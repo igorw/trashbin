@@ -14,7 +14,7 @@ use Silex\Application;
 use Silex\Extension\TwigExtension;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BaseHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app = new Application();
@@ -48,10 +48,11 @@ $app->post('/create', function () use ($app) {
 
     $errors = $app['app.validator']->validate($paste);
     if ($errors) {
-        return $app['twig']->render('index.html', array(
+        $page = $app['twig']->render('index.html', array(
             'errors'    => $errors,
             'paste'     => $paste,
         ));
+        return new Response($page, 400);
     }
 
     $app['app.storage']->set($id, $paste);
@@ -80,7 +81,7 @@ $app->get('/{id}', function ($id) use ($app) {
 ->assert('id', '[0-9a-f]{8}');
 
 $app->error(function (Exception $e) use ($app) {
-    $code = ($e instanceof BaseHttpException) ? $e->getStatusCode() : 500;
+    $code = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
 
     return new Response($app['twig']->render('error.html', array(
         'message'	=> $e->getMessage(),

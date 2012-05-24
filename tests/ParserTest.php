@@ -6,16 +6,27 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
-    public function testCreatePasteFromRequest()
+    /**
+     * @dataProvider provideCreatePasteFromRequest
+     */
+    public function testCreatePasteFromRequest($expected, $parameters)
     {
         $languages = array('php', 'js');
         $parser = new Parser($languages);
 
-        $parameters = array('content' => 'foobar');
         $request = Request::create('GET', '/', $parameters);
         list($id, $paste) = $parser->createPasteFromRequest($request);
         $this->assertTrue(is_string($id));
-        $this->assertEquals(array('content' => 'foobar'), $paste);
+        $this->assertEquals($expected, $paste);
+    }
+
+    public function provideCreatePasteFromRequest()
+    {
+        return array(
+            array(array('content' => 'foobar'), array('content' => 'foobar')),
+            array(array('content' => 'foobar', 'language' => 'php'), array('content' => 'foobar', 'language' => 'php')),
+            array(array('content' => 'foobar'), array('content' => 'foobar', 'language' => 'spanish')),
+        );
     }
 
     /**

@@ -20,9 +20,12 @@ use Silex\Provider\UrlGeneratorServiceProvider;
 use Symfony\Component\Finder\Finder;
 
 /* prevent direct access */
+
+// @codeCoverageIgnoreStart
 if (!$app) {
     exit;
 }
+// @codeCoverageIgnoreEnd
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path'         => __DIR__.'/../views',
