@@ -6,7 +6,7 @@ simple pastebin written in PHP
 
 set up dependencies:
 
-    wget http://getcomposer.org/composer.phar
+    curl -s http://getcomposer.org/installer | php
     php composer.phar install
 
 install and start [redis](http://redis.io):
