@@ -8,6 +8,10 @@
  * with this source code in the file LICENSE.
  */
 
+use Igorw\Trashbin\Storage;
+use Igorw\Trashbin\Validator;
+use Igorw\Trashbin\Parser;
+
 use Predis\Silex\PredisServiceProvider;
 
 use Silex\Provider\TwigServiceProvider;
@@ -29,7 +33,7 @@ $app->register(new UrlGeneratorServiceProvider());
 
 $app->register(new PredisServiceProvider());
 
-$app['app.languages'] = function () {
+$app['app.languages'] = $app->share(function () {
     $languages = array();
     $finder = new Finder();
     foreach ($finder->name('*.min.js')->in(__DIR__.'/../vendor/shjs/lang') as $file) {
@@ -38,8 +42,16 @@ $app['app.languages'] = function () {
         }
     }
     return $languages;
-};
+});
 
 $app['app.storage'] = $app->share(function () use ($app) {
-    return new Igorw\Trashbin\Storage($app['predis']);
+    return new Storage($app['predis']);
+});
+
+$app['app.validator'] = $app->share(function () {
+    return new Validator();
+});
+
+$app['app.parser'] = $app->share(function () use ($app) {
+    return new Parser($app['app.languages']);
 });

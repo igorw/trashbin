@@ -1,5 +1,7 @@
 <?php
 
+namespace Igorw\Trashbin;
+
 use Predis\Client;
 
 class Storage

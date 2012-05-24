@@ -44,24 +44,14 @@ $app->get('/create', function () use ($app) {
 });
 
 $app->post('/create', function () use ($app) {
-    $content = preg_replace('#\r?\n#', "\n", $app['request']->get('content', ''));
+    list($id, $paste) = $app['app.parser']->createPasteFromRequest($app['request']);
 
-    $id = substr(hash('sha512', $content . time() . rand(0, 255)), 0, 8);
-
-    $paste = array(
-        'content'   => $content,
-    );
-
-    if ('' === trim($paste['content'])) {
+    $errors = $app['app.validator']->validate($paste);
+    if ($errors) {
         return $app['twig']->render('index.html', array(
-            'error_msg'	=> 'you must enter some content',
-            'paste'		=> $paste,
+            'errors'    => $errors,
+            'paste'     => $paste,
         ));
-    }
-
-    $language = $app['request']->get('language', '');
-    if (in_array($language, $app['app.languages'])) {
-        $paste['language'] = $language;
     }
 
     $app['app.storage']->set($id, $paste);
