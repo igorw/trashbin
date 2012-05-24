@@ -34,7 +34,7 @@ $app->get('/', function () use ($app) {
     $parentId = $app['request']->get('parent', false);
     $parent = false;
     if ($parentId) {
-        $parent = $app['predis']->hgetall($parentId);
+        $parent = $app['app.storage']->get($parentId);
     }
 
     return $app['twig']->render('index.html', array(
@@ -68,7 +68,7 @@ $app->post('/create', function () use ($app) {
         $paste['language'] = $language;
     }
 
-    $app['predis']->hmset($id, $paste);
+    $app['app.storage']->set($id, $paste);
 
     return $app->redirect($app['url_generator']->generate('view', array('id' => $id)));
 })
@@ -79,7 +79,7 @@ $app->get('/about', function () use ($app) {
 });
 
 $app->get('/{id}', function ($id) use ($app) {
-    $paste = $app['predis']->hgetall($id);
+    $paste = $app['app.storage']->get($id);
 
     if (!$paste) {
         throw new NotFoundHttpException('paste not found');

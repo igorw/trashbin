@@ -4,5 +4,8 @@
         "symfony/finder": ">=2.1-dev",
         "twig/twig": "1.6.0",
         "predis/service-provider": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Igorw\\Trashbin": "src" }
     }
 }
