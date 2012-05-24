@@ -43,5 +43,3 @@ $app['app.languages'] = function () {
 $app['app.storage'] = $app->share(function () use ($app) {
     return new Igorw\Trashbin\Storage($app['predis']);
 });
-
-$app['footer'] = 'Hosted by <a href="https://affiliates.nexcess.net/idevaffiliate.php?id=1184">Nexcess.net</a>';
