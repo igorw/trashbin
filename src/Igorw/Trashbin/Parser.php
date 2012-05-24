@@ -34,11 +34,11 @@ class Parser
 
     public function normalizeContent($content)
     {
-        return preg_replace('#\r?\n#', "\n", $content);
+        return preg_replace(array('#\r?\n#', '#\r#'), "\n", $content);
     }
 
     public function generateId($content)
     {
-        return substr(hash('sha512', $content . time() . rand(0, 255)), 0, 8);
+        return substr(hash('sha512', $content . mt_rand()), 0, 8);
     }
 }
