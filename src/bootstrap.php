@@ -36,7 +36,7 @@ $app->register(new PredisServiceProvider());
 $app['app.languages'] = $app->share(function () {
     $languages = array();
     $finder = new Finder();
-    foreach ($finder->name('*.min.js')->in(__DIR__.'/../vendor/shjs/lang') as $file) {
+    foreach ($finder->name('*.min.js')->in(__DIR__.'/../web/shjs/lang') as $file) {
         if (preg_match('#sh_(.+).min.js#', basename($file), $matches)) {
             $languages[] = $matches[1];
         }
