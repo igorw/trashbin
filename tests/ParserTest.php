@@ -14,7 +14,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $languages = array('php', 'js');
         $parser = new Parser($languages);
 
-        $request = Request::create('GET', '/', $parameters);
+        $request = Request::create('GET', '/', $parameters, array(), array(), array('REQUEST_TIME' => 1337882841));
         list($id, $paste) = $parser->createPasteFromRequest($request);
         $this->assertTrue(is_string($id));
         $this->assertEquals($expected, $paste);
@@ -23,9 +23,9 @@ class ParserTest extends PHPUnit_Framework_TestCase
     public function provideCreatePasteFromRequest()
     {
         return array(
-            array(array('content' => 'foobar'), array('content' => 'foobar')),
-            array(array('content' => 'foobar', 'language' => 'php'), array('content' => 'foobar', 'language' => 'php')),
-            array(array('content' => 'foobar'), array('content' => 'foobar', 'language' => 'spanish')),
+            array(array('content' => 'foobar', 'created_at' => 1337882841), array('content' => 'foobar')),
+            array(array('content' => 'foobar', 'language' => 'php', 'created_at' => 1337882841), array('content' => 'foobar', 'language' => 'php')),
+            array(array('content' => 'foobar', 'created_at' => 1337882841), array('content' => 'foobar', 'language' => 'spanish')),
         );
     }
 

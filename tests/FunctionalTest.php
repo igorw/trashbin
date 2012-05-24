@@ -10,6 +10,8 @@ class FunctionalTest extends WebTestCase
 
         $app['app.storage'] = $this->getMockBuilder('Igorw\Trashbin\Storage')->disableOriginalConstructor()->getMock();
 
+        unset($this->app['exception_handler']);
+
         return $app;
     }
 
@@ -37,7 +39,7 @@ class FunctionalTest extends WebTestCase
 
     public function testCreatePaste()
     {
-        $paste = array('content' => 'foobar');
+        $paste = array('content' => 'foobar', 'created_at' => 1337882841);
 
         $this->app['app.storage']
             ->expects($this->once())
@@ -51,6 +53,7 @@ class FunctionalTest extends WebTestCase
             ->will($this->returnValue($paste));
 
         $client = $this->createClient();
+        $client->setServerParameters(array('REQUEST_TIME' => 1337882841));
 
         $crawler = $client->request('GET', '/');
 
@@ -82,7 +85,7 @@ class FunctionalTest extends WebTestCase
 
     public function testViewPaste()
     {
-        $paste = array('content' => 'foobar');
+        $paste = array('content' => 'foobar', 'created_at' => 1337882841);
 
         $this->app['app.storage']
             ->expects($this->once())

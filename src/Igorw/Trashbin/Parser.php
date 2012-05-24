@@ -29,6 +29,8 @@ class Parser
             $paste['language'] = $language;
         }
 
+        $paste['created_at'] = $request->server->get('REQUEST_TIME');
+
         return array($id, $paste);
     }
 
