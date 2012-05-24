@@ -13,7 +13,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Silex\Application;
 use Silex\Extension\TwigExtension;
 
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BaseHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,10 +31,7 @@ $app->before(function () use ($app) {
 
 $app->get('/', function () use ($app) {
     $parentId = $app['request']->get('parent', false);
-    $parent = false;
-    if ($parentId) {
-        $parent = $app['app.storage']->get($parentId);
-    }
+    $parent = $parentId ? $app['app.storage']->get($parentId) : null;
 
     return $app['twig']->render('index.html', array(
         'paste'     => $parent,
