@@ -30,11 +30,15 @@ $app->before(function () use ($app) {
 });
 
 $app->get('/', function () use ($app) {
-    $parentId = $app['request']->get('parent', false);
-    $parent = $parentId ? $app['app.storage']->get($parentId) : null;
+    $parentPasteId = $app['request']->get('parent');
+
+    $parentPaste = null;
+    if ($parentPasteId) {
+        $parentPaste = $app['app.storage']->get($parentPasteId);
+    }
 
     return $app['twig']->render('index.html', array(
-        'paste'     => $parent,
+        'paste'     => $parentPaste,
     ));
 })
 ->bind('homepage');
