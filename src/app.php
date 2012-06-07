@@ -43,11 +43,7 @@ $app->get('/', function () use ($app) {
 })
 ->bind('homepage');
 
-$app->get('/create', function () use ($app) {
-    return $app->redirect($app['url_generator']->generate('homepage'));
-});
-
-$app->post('/create', function () use ($app) {
+$app->post('/', function () use ($app) {
     list($id, $paste) = $app['app.parser']->createPasteFromRequest($app['request']);
 
     $errors = $app['app.validator']->validate($paste);
@@ -73,7 +69,7 @@ $app->get('/{id}', function ($id) use ($app) {
     $paste = $app['app.storage']->get($id);
 
     if (!$paste) {
-        throw new NotFoundHttpException('paste not found');
+        $app->abort(404, 'paste not found');
     }
 
     return $app['twig']->render('view.html', array(

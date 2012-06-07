@@ -28,15 +28,6 @@ class FunctionalTest extends WebTestCase
         $this->assertContains('textarea', $response->getContent());
     }
 
-    public function testGetCreateShouldRedirectToRoot()
-    {
-        $client = $this->createClient();
-
-        $client->request('GET', '/create');
-        $response = $client->getResponse();
-        $this->assertTrue($response->isRedirect('/'));
-    }
-
     public function testCreatePaste()
     {
         $paste = array('content' => 'foobar', 'created_at' => 1337882841);
