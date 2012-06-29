@@ -81,6 +81,10 @@ $app->get('/{id}', function ($id) use ($app) {
 ->assert('id', '[0-9a-f]{8}');
 
 $app->error(function (Exception $e) use ($app) {
+    if (!$app['catch_exceptions']) {
+        return;
+    }
+
     $code = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
 
     return new Response($app['twig']->render('error.html', array(
