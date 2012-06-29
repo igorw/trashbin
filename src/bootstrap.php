@@ -36,6 +36,8 @@ $app->register(new UrlGeneratorServiceProvider());
 
 $app->register(new PredisServiceProvider());
 
+$app['catch_exceptions'] = true;
+
 $app['app.languages'] = $app->share(function () {
     $languages = array();
     $finder = new Finder();
