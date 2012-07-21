@@ -3,7 +3,6 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Silex\Application;
-use Silex\Extension\TwigExtension;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
