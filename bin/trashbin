@@ -12,15 +12,10 @@ $size = $info['size'];
 if (!$size)
 {
 	echo "Pipe some content into here.\n";
-	exit;
+	exit(1);
 }
 
-$content = '';
-do
-{
-	$content .= fread(STDIN, 1024);
-}
-while (!feof(STDIN));
+$content = stream_get_contents(STDIN);
 
 $context = stream_context_create(array(
 	'http' => array(
@@ -30,15 +25,15 @@ $context = stream_context_create(array(
 		'timeout' => 20,
 	),
 ));
-$result = file_get_contents(sprintf($base_url, 'create'), false, $context);
+$result = file_get_contents(sprintf($base_url, ''), false, $context);
 
 if ($result !== false)
 {
 	foreach ($http_response_header as $header)
 	{
-		if (preg_match('#^Location: (\w+)#', $header, $matches))
+		if (preg_match('#^location: (.+)#i', $header, $matches))
 		{
-			$paste_id = $matches[1];
+			$paste_id = ltrim($matches[1], '/');
 			echo sprintf($base_url, $paste_id) . "\n";
 		}
 	}
