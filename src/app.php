@@ -6,7 +6,6 @@ use Silex\Application;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app = new Application();
 
@@ -43,6 +42,7 @@ $app->post('/', function () use ($app) {
             'errors'    => $errors,
             'paste'     => $paste,
         ));
+
         return new Response($page, 400);
     }
 

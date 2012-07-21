@@ -38,6 +38,7 @@ $app['app.languages'] = $app->share(function () {
             $languages[] = $matches[1];
         }
     }
+
     return $languages;
 });
 
