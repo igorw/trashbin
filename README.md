@@ -6,7 +6,7 @@ simple pastebin written in PHP
 
 set up dependencies:
 
-    curl -s http://getcomposer.org/installer | php
+    curl -s https://getcomposer.org/installer | php
     php composer.phar install
 
 install and start [redis](http://redis.io):
@@ -22,6 +22,7 @@ fork, branch, hack, pull request. thanks!
 
 phpunit is required for the tests.
 
+    composer install --dev
     phpunit
 
 ## using

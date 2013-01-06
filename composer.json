@@ -1,11 +1,13 @@
 {
     "require": {
         "silex/silex": "1.0.*@dev",
-        "symfony/browser-kit": "2.1.*",
-        "symfony/css-selector": "2.1.*",
-        "symfony/finder": "2.1.*",
-        "twig/twig": "1.8.*",
-        "predis/service-provider": ">=0.2.0"
+        "symfony/finder": "~2.1",
+        "twig/twig": "~1.8",
+        "predis/service-provider": "0.3.*"
+    },
+    "require-dev": {
+        "symfony/browser-kit": "~2.1",
+        "symfony/css-selector": "~2.1"
     },
     "autoload": {
         "psr-0": { "Igorw\\Trashbin": "src" }
