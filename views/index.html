@@ -4,7 +4,7 @@
 
 <h1>trashbin</h1>
 <p>simple pastebin for pasting pastes. for permanent pastes, please use <a href="https://gist.github.com">gist</a>.</p>
-{% if errors %}
+{% if errors|default(null) %}
     {% for error in errors %}
         <p class="error_msg">&sim; {{ error }}</p>
     {% endfor %}
@@ -13,12 +13,12 @@
     <select name="language">
         <option value="">none</option>
         {% for language in languages %}
-        <option{% if paste and paste.language == language %} selected="selected"{% endif %}>
+        <option{% if paste and paste.language|default(null) == language %} selected="selected"{% endif %}>
             {{ language }}
         </option>
         {% endfor %}
     </select>
-    <textarea name="content">{{ paste.content }}</textarea>
+    <textarea name="content">{{ paste.content|default('') }}</textarea>
     <input type="submit" name="submit" value="trash it!" />
 </form>
 
