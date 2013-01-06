@@ -36,7 +36,7 @@ $app->get('/', function (Request $request) use ($app) {
         $parentPaste = $app['app.storage']->get($parentPasteId);
     }
 
-    return $app['twig']->render('index.html', array(
+    return $app['twig']->render('index.html.twig', array(
         'paste'     => $parentPaste,
     ));
 })
@@ -47,7 +47,7 @@ $app->post('/', function (Request $request) use ($app) {
 
     $errors = $app['app.validator']->validate($paste);
     if ($errors) {
-        $page = $app['twig']->render('index.html', array(
+        $page = $app['twig']->render('index.html.twig', array(
             'errors'    => $errors,
             'paste'     => $paste,
         ));
@@ -62,7 +62,7 @@ $app->post('/', function (Request $request) use ($app) {
 ->bind('create');
 
 $app->get('/about', function (Request $request) use ($app) {
-    return $app['twig']->render('about.html');
+    return $app['twig']->render('about.html.twig');
 });
 
 $app->get('/{id}', function (Request $request, $id) use ($app) {
@@ -72,7 +72,7 @@ $app->get('/{id}', function (Request $request, $id) use ($app) {
         $app->abort(404, 'paste not found');
     }
 
-    return $app['twig']->render('view.html', array(
+    return $app['twig']->render('view.html.twig', array(
         'copy_url'	=> $app['url_generator']->generate('homepage', array('parent' => $id)),
         'paste'		=> $paste,
     ));
@@ -87,7 +87,7 @@ $app->error(function (Exception $e) use ($app) {
 
     $code = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
 
-    return new Response($app['twig']->render('error.html', array(
+    return new Response($app['twig']->render('error.html.twig', array(
         'message'	=> $e->getMessage(),
     )), $code);
 });
