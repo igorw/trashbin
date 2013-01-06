@@ -9,14 +9,23 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 $app = new Application();
 
-require __DIR__.'/bootstrap.php';
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path'         => __DIR__.'/../views',
+    'twig.options'      => array('cache' => __DIR__.'/../cache/twig'),
+));
 
-$app->before(function () use ($app) {
-    $app['twig']->addGlobal('base_path', $app['request']->getBasePath());
-    $app['twig']->addGlobal('index_url', $app['url_generator']->generate('homepage'));
-    $app['twig']->addGlobal('create_url', $app['url_generator']->generate('create'));
-    $app['twig']->addGlobal('languages', $app['app.languages']);
-});
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+$app->register(new Predis\Silex\PredisServiceProvider());
+$app->register(new Igorw\Trashbin\Provider());
+
+$app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
+    $twig->addGlobal('base_path', $app['request']->getBasePath());
+    $twig->addGlobal('index_url', $app['url_generator']->generate('homepage'));
+    $twig->addGlobal('create_url', $app['url_generator']->generate('create'));
+    $twig->addGlobal('languages', $app['app.languages']);
+
+    return $twig;
+}));
 
 $app->get('/', function () use ($app) {
     $parentPasteId = $app['request']->get('parent');
