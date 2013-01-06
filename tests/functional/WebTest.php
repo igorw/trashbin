@@ -10,6 +10,8 @@ class WebTest extends WebTestCase
 
         $app['app.storage'] = $this->getMockBuilder('Igorw\Trashbin\Storage')->disableOriginalConstructor()->getMock();
 
+        $app['twig.options'] = array();
+        $app['debug'] = true;
         $app['exception_handler']->disable();
 
         return $app;
@@ -94,6 +96,8 @@ class WebTest extends WebTestCase
 
     public function testViewPasteWithInvalidId()
     {
+        $this->app['debug'] = false;
+
         $this->app['app.storage']
             ->expects($this->once())
             ->method('get')
