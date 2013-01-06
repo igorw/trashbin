@@ -8,13 +8,9 @@ class WebTest extends WebTestCase
     {
         $app = require __DIR__.'/../../src/app.php';
 
-        $app['catch_exceptions'] = false;
-
         $app['app.storage'] = $this->getMockBuilder('Igorw\Trashbin\Storage')->disableOriginalConstructor()->getMock();
 
-        $app['twig.options'] = array('debug' => true);
-
-        unset($app['exception_handler']);
+        $app['exception_handler']->disable();
 
         return $app;
     }
@@ -98,8 +94,6 @@ class WebTest extends WebTestCase
 
     public function testViewPasteWithInvalidId()
     {
-        $this->app['catch_exceptions'] = true;
-
         $this->app['app.storage']
             ->expects($this->once())
             ->method('get')

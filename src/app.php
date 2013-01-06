@@ -12,7 +12,6 @@ $app = new Application();
 require __DIR__.'/bootstrap.php';
 
 $app->before(function () use ($app) {
-    // set up some template globals
     $app['twig']->addGlobal('base_path', $app['request']->getBasePath());
     $app['twig']->addGlobal('index_url', $app['url_generator']->generate('homepage'));
     $app['twig']->addGlobal('create_url', $app['url_generator']->generate('create'));
@@ -72,7 +71,7 @@ $app->get('/{id}', function ($id) use ($app) {
 ->assert('id', '[0-9a-f]{8}');
 
 $app->error(function (Exception $e) use ($app) {
-    if (!$app['catch_exceptions']) {
+    if ($app['debug']) {
         return;
     }
 

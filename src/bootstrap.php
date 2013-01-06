@@ -21,14 +21,11 @@ if (!$app) {
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path'         => __DIR__.'/../views',
-    'twig.options'      => array('cache' => __DIR__.'/../cache/twig', 'debug' => true),
+    'twig.options'      => array('cache' => __DIR__.'/../cache/twig'),
 ));
 
 $app->register(new UrlGeneratorServiceProvider());
-
 $app->register(new PredisServiceProvider());
-
-$app['catch_exceptions'] = true;
 
 $app['app.languages'] = $app->share(function () {
     $languages = array();
