@@ -4,6 +4,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Silex\Application;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -27,8 +28,8 @@ $app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
     return $twig;
 }));
 
-$app->get('/', function () use ($app) {
-    $parentPasteId = $app['request']->get('parent');
+$app->get('/', function (Request $request) use ($app) {
+    $parentPasteId = $request->get('parent');
 
     $parentPaste = null;
     if ($parentPasteId) {
@@ -41,8 +42,8 @@ $app->get('/', function () use ($app) {
 })
 ->bind('homepage');
 
-$app->post('/', function () use ($app) {
-    list($id, $paste) = $app['app.parser']->createPasteFromRequest($app['request']);
+$app->post('/', function (Request $request) use ($app) {
+    list($id, $paste) = $app['app.parser']->createPasteFromRequest($request);
 
     $errors = $app['app.validator']->validate($paste);
     if ($errors) {
@@ -60,11 +61,11 @@ $app->post('/', function () use ($app) {
 })
 ->bind('create');
 
-$app->get('/about', function () use ($app) {
+$app->get('/about', function (Request $request) use ($app) {
     return $app['twig']->render('about.html');
 });
 
-$app->get('/{id}', function ($id) use ($app) {
+$app->get('/{id}', function (Request $request, $id) use ($app) {
     $paste = $app['app.storage']->get($id);
 
     if (!$paste) {
