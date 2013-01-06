@@ -8,7 +8,9 @@ class WebTest extends WebTestCase
     {
         $app = require __DIR__.'/../../src/app.php';
 
-        $app['app.storage'] = $this->getMockBuilder('Igorw\Trashbin\Storage')->disableOriginalConstructor()->getMock();
+        $app['app.storage'] = $this->getMockBuilder('Igorw\Trashbin\Storage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $app['twig.options'] = array();
         $app['debug'] = true;
