@@ -2,13 +2,13 @@
 
 namespace Igorw\Trashbin;
 
-class StorageTest extends \PHPUnit_Framework_TestCase
+class RedisStorageTest extends \PHPUnit_Framework_TestCase
 {
     public function testGet()
     {
         $redis = $this->getMock('Predis\Client');
 
-        $storage = new Storage($redis);
+        $storage = new RedisStorage($redis);
         $storage->get('foo');
     }
 
@@ -16,7 +16,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $redis = $this->getMock('Predis\Client');
 
-        $storage = new Storage($redis);
+        $storage = new RedisStorage($redis);
         $storage->set('foo', array('a' => 'b'));
     }
 }

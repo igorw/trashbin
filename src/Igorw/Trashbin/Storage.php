@@ -2,24 +2,8 @@
 
 namespace Igorw\Trashbin;
 
-use Predis\Client;
-
-class Storage
+interface Storage
 {
-    private $redis;
-
-    public function __construct(Client $redis)
-    {
-        $this->redis = $redis;
-    }
-
-    public function get($id)
-    {
-        return $this->redis->hgetall($id);
-    }
-
-    public function set($id, array $data)
-    {
-        return $this->redis->hmset($id, $data);
-    }
+    public function get($id);
+    public function set($id, array $data);
 }

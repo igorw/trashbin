@@ -23,7 +23,7 @@ class Provider implements ServiceProviderInterface
         });
 
         $app['app.storage'] = $app->share(function ($app) {
-            return new Storage($app['predis']);
+            return new RedisStorage($app['predis']);
         });
 
         $app['app.validator'] = $app->share(function () {
