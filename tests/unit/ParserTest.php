@@ -1,10 +1,10 @@
 <?php
 
-use Igorw\Trashbin\Parser;
+namespace Igorw\Trashbin;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class ParserTest extends PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideCreatePasteFromRequest

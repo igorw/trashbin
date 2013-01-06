@@ -1,8 +1,8 @@
 <?php
 
-use Igorw\Trashbin\Validator;
+namespace Igorw\Trashbin;
 
-class ValidatorTest extends PHPUnit_Framework_TestCase
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideValidate

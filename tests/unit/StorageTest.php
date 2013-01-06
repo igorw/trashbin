@@ -1,8 +1,8 @@
 <?php
 
-use Igorw\Trashbin\Storage;
+namespace Igorw\Trashbin;
 
-class StorageTest extends PHPUnit_Framework_TestCase
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     public function testGet()
     {

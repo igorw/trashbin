@@ -6,7 +6,7 @@ class FunctionalTest extends WebTestCase
 {
     public function createApplication()
     {
-        $app = require __DIR__.'/../src/app.php';
+        $app = require __DIR__.'/../../src/app.php';
 
         $app['catch_exceptions'] = false;
 
