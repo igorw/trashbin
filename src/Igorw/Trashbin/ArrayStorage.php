@@ -6,7 +6,7 @@ class ArrayStorage implements Storage
 {
     private $data;
 
-    public function __construct(array $data)
+    public function __construct(array $data = array())
     {
         $this->data = $data;
     }

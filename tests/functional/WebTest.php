@@ -51,7 +51,8 @@ class WebTest extends WebTestCase
         $this->assertContains('foobar', $response->getContent());
     }
 
-    public function testCreatePasteWithoutContentShouldFail()
+    /** @test */
+    public function createPasteWithoutContentShouldFail()
     {
         $client = $this->createClient();
 
@@ -76,16 +77,27 @@ class WebTest extends WebTestCase
         $this->assertContains('foobar', $response->getContent());
     }
 
+    public function testCreatePasteWithParent()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/abcdef12');
+
+        $link = $crawler->selectLink('copy')->link();
+        $crawler = $client->click($link);
+
+        $form = $crawler->filter('form')->form();
+        $this->assertSame('foobar', $form['content']->getValue());
+    }
+
+    /**
+     * @expectedException Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage paste not found
+     */
     public function testViewPasteWithInvalidId()
     {
-        $this->app['debug'] = false;
-
         $client = $this->createClient();
 
         $client->request('GET', '/00000000');
-        $response = $client->getResponse();
-        $this->assertSame(404, $response->getStatusCode());
-        $this->assertContains('paste not found', $response->getContent());
     }
 
     public function testAbout()
@@ -98,5 +110,16 @@ class WebTest extends WebTestCase
         $this->assertContains('trashbin', $response->getContent());
         $this->assertContains('github', $response->getContent());
         $this->assertContains('igorw', $response->getContent());
+    }
+
+    public function testErrorHandler()
+    {
+        $this->app['debug'] = false;
+
+        $client = $this->createClient();
+
+        $client->request('GET', '/non-existent');
+        $response = $client->getResponse();
+        $this->assertSame(404, $response->getStatusCode());
     }
 }
