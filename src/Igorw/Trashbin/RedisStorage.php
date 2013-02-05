@@ -18,8 +18,8 @@ class RedisStorage implements Storage
         return $this->redis->hgetall($id);
     }
 
-    public function set($id, array $data)
+    public function set($id, array $value)
     {
-        return $this->redis->hmset($id, $data);
+        return $this->redis->hmset($id, $value);
     }
 }

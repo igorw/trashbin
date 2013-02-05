@@ -1,5 +1,6 @@
 <?php
 
+use Igorw\Trashbin\ArrayStorage;
 use Silex\WebTestCase;
 
 class WebTest extends WebTestCase
@@ -8,9 +9,9 @@ class WebTest extends WebTestCase
     {
         $app = require __DIR__.'/../../src/app.php';
 
-        $app['app.storage'] = $this->getMockBuilder('Igorw\Trashbin\Storage')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $app['app.storage'] = new ArrayStorage(array(
+            'abcdef12' => array('content' => 'foobar', 'created_at' => 1337882841),
+        ));
 
         $app['twig.options'] = array();
         $app['debug'] = true;
@@ -34,19 +35,6 @@ class WebTest extends WebTestCase
 
     public function testCreatePaste()
     {
-        $paste = array('content' => 'foobar', 'created_at' => 1337882841);
-
-        $this->app['app.storage']
-            ->expects($this->once())
-            ->method('set')
-            ->with($this->isType('string'), $paste);
-
-        $this->app['app.storage']
-            ->expects($this->once())
-            ->method('get')
-            ->with($this->isType('string'))
-            ->will($this->returnValue($paste));
-
         $client = $this->createClient();
         $client->setServerParameters(array('REQUEST_TIME' => 1337882841));
 
@@ -80,14 +68,6 @@ class WebTest extends WebTestCase
 
     public function testViewPaste()
     {
-        $paste = array('content' => 'foobar', 'created_at' => 1337882841);
-
-        $this->app['app.storage']
-            ->expects($this->once())
-            ->method('get')
-            ->with('abcdef12')
-            ->will($this->returnValue($paste));
-
         $client = $this->createClient();
 
         $client->request('GET', '/abcdef12');
@@ -99,12 +79,6 @@ class WebTest extends WebTestCase
     public function testViewPasteWithInvalidId()
     {
         $this->app['debug'] = false;
-
-        $this->app['app.storage']
-            ->expects($this->once())
-            ->method('get')
-            ->with('00000000')
-            ->will($this->returnValue(null));
 
         $client = $this->createClient();
 
