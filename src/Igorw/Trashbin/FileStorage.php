@@ -13,6 +13,9 @@ class FileStorage implements Storage
     
     public function get($id)
     {
+        if( !file_exists( $this->pathTo($id) ) ) { 
+            return false;
+        }
         return json_decode( file_get_contents($this->pathTo($id) ));
     }
 
