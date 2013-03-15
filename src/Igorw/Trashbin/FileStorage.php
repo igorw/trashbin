@@ -5,18 +5,18 @@ namespace Igorw\Trashbin;
 class FileStorage implements Storage
 {
     private $storageDirectory;
-    
+
     public function __construct($storageDirectory)
     {
-        $this->storageDirectory = rtrim($storageDirectory, '\\/') . DIRECTORY_SEPARATOR;
+        $this->storageDirectory = rtrim($storageDirectory, '\\/').'/';
     }
-    
+
     public function get($id)
     {
-        if( !file_exists( $this->pathTo($id) ) ) { 
+        if (!file_exists($this->pathTo($id))) {
             return false;
         }
-        return json_decode( file_get_contents($this->pathTo($id) ));
+        return json_decode(file_get_contents($this->pathTo($id)));
     }
 
     public function set($id, array $value)
@@ -26,6 +26,6 @@ class FileStorage implements Storage
 
     private function pathTo($id)
     {
-        return $this->storageDirectory . $id . '.json';
+        return $this->storageDirectory.$id.'.json';
     }
 }
