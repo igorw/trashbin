@@ -10,6 +10,12 @@ class ArrayStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('a' => 'b'), $storage->get('foo'));
     }
 
+    public function testGetOfNonExistentValue()
+    {
+        $storage = new ArrayStorage();
+        $this->assertSame(null, $storage->get('foo'));
+    }
+
     public function testSet()
     {
         $storage = new ArrayStorage();
