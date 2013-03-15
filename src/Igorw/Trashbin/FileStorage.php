@@ -14,14 +14,19 @@ class FileStorage implements Storage
     public function get($id)
     {
         if (!file_exists($this->pathTo($id))) {
-            return false;
+            return null;
         }
-        return json_decode(file_get_contents($this->pathTo($id)));
+
+        $json = file_get_contents($this->pathTo($id));
+
+        return json_decode($json, true);
     }
 
     public function set($id, array $value)
     {
-        return file_put_contents($this->pathTo($id), json_encode($value)) !== false;
+        $json = json_encode($value);
+
+        return false !== file_put_contents($this->pathTo($id), $json);
     }
 
     private function pathTo($id)

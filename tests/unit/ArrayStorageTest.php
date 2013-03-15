@@ -4,23 +4,36 @@ namespace Igorw\Trashbin;
 
 class ArrayStorageTest extends \PHPUnit_Framework_TestCase
 {
+    private $storage;
+
+    public function setUp()
+    {
+        $this->storage = new ArrayStorage();
+    }
+
     public function testGet()
     {
-        $storage = new ArrayStorage(array('foo' => array('a' => 'b')));
-        $this->assertSame(array('a' => 'b'), $storage->get('foo'));
+        $this->storage = new ArrayStorage(array('foo' => array('a' => 'b')));
+        $this->assertSame(array('a' => 'b'), $this->storage->get('foo'));
     }
 
     public function testGetOfNonExistentValue()
     {
-        $storage = new ArrayStorage();
-        $this->assertSame(null, $storage->get('foo'));
+        $this->assertSame(null, $this->storage->get('foo'));
     }
 
     public function testSet()
     {
-        $storage = new ArrayStorage();
-        $storage->set('foo', array('a' => 'b'));
+        $this->storage->set('foo', array('a' => 'b'));
 
-        $this->assertSame(array('a' => 'b'), $storage->get('foo'));
+        $this->assertSame(array('a' => 'b'), $this->storage->get('foo'));
+    }
+
+    public function testSetTwiceShouldOverrideValue()
+    {
+        $this->storage->set('foo', array('a' => 'b'));
+        $this->storage->set('foo', array('c' => 'd'));
+
+        $this->assertSame(array('c' => 'd'), $this->storage->get('foo'));
     }
 }
